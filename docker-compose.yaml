@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile  # Nome do seu Dockerfile
+    image: 'django-desafio'  # Nome que você deseja para sua imagem
+    ports:
+      - "8000:8000"  # Mapeia a porta interna do container para a porta do host
+    volumes:
+      - ./backend:/app  # Monta o diretório de trabalho no container
+    command: python manage.py runserver 0.0.0.0:8000  # Comando para iniciar o servidor Django
+    depends_on:
+      - db  # Dependência do banco de dados (caso esteja usando um)
+
+  db:
+    image: postgres:latest  
+    environment:
+      POSTGRES_DB: mydatabase
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
